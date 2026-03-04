@@ -13,7 +13,7 @@ const BT02 = () => {
   const [month, setMonth] = useState("");
   const [targetMinutes, setTargetMinutes] = useState("");
 
-  // load dữ liệu khi mở trang
+
   useEffect(() => {
     const s1 = localStorage.getItem("subjects");
     const s2 = localStorage.getItem("sessions");
@@ -24,7 +24,7 @@ const BT02 = () => {
     if (s3) setGoals(JSON.parse(s3));
   }, []);
 
-  // lưu localStorage mỗi khi thay đổi
+
   useEffect(() => {
     localStorage.setItem("subjects", JSON.stringify(subjects));
   }, [subjects]);
@@ -37,7 +37,7 @@ const BT02 = () => {
     localStorage.setItem("goals", JSON.stringify(goals));
   }, [goals]);
 
-  // thêm môn học
+
   function addSubject() {
     if (newSubject === "") return;
 
@@ -47,7 +47,7 @@ const BT02 = () => {
     setNewSubject("");
   }
 
-  // thêm buổi học
+
   function addSession() {
     if (selectedSubject === "" || duration === "") return;
 
@@ -63,7 +63,7 @@ const BT02 = () => {
     setDuration("");
   }
 
-  // đặt mục tiêu
+
   function addGoal() {
     if (month === "" || targetMinutes === "") return;
 
@@ -77,7 +77,7 @@ const BT02 = () => {
     setTargetMinutes("");
   }
 
-  // tính tổng phút theo tháng
+
   function getTotalByMonth(m: string) {
     let total = 0;
 
