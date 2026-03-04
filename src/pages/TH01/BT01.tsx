@@ -2,46 +2,58 @@ import React, { useState } from "react";
 import { Card, InputNumber, Button, Typography } from "antd";
 
 const GuessGame = () => {
-  const randomNumber = Math.floor(Math.random() * 100) + 1;
-  const [secretNumber, setSecretNumber] = useState(randomNumber);
-  const [guess, setGuess] = useState<number | null>(null);
-  const [messageText, setMessageText] = useState("");
-  const [attemptsLeft, setAttemptsLeft] = useState(10);
-  const [gameOver, setGameOver] = useState(false);
+
+  // hàm tạo số ngẫu nhiên
+  function taoSoNgauNhien() {
+    return Math.floor(Math.random() * 100) + 1;
+  }
+
+  const [secretNumber, setSecretNumber] = useState(taoSoNgauNhien());
+  const [myGuess, setMyGuess] = useState<number | null>(null);
+  const [thongBao, setThongBao] = useState("");
+  const [soLuotConLai, setSoLuotConLai] = useState(10);
+  const [ketThuc, setKetThuc] = useState(false);
+
   function handleGuess() {
-    if (guess === null) {
-      setMessageText("Bạn chưa nhập số!");
+
+    if (myGuess === null) {
+      setThongBao("Bạn chưa nhập số!");
       return;
-    }
-    if (gameOver === true) {
-      return;
-    }
-    if (guess < secretNumber) {
-      setMessageText("Bạn đoán quá thấp!");
-    }
-    if (guess > secretNumber) {
-      setMessageText("Bạn đoán quá cao!");
-    }
-    if (guess === secretNumber) {
-      setMessageText("Chúc mừng! Bạn đã đoán đúng!");
-      setGameOver(true);
     }
 
-    let newAttempts = attemptsLeft - 1;
-    setAttemptsLeft(newAttempts);
-    if (newAttempts === 0 && guess !== secretNumber) {
-      setMessageText("Bạn đã hết lượt! Số đúng là " + secretNumber);
-      setGameOver(true);
+    if (ketThuc === true) {
+      return;
+    }
+
+    if (myGuess < secretNumber) {
+      setThongBao("Bạn đoán quá thấp!");
+    }
+
+    if (myGuess > secretNumber) {
+      setThongBao("Bạn đoán quá cao!");
+    }
+
+    if (myGuess === secretNumber) {
+      setThongBao("Chúc mừng! Bạn đã đoán đúng!");
+      setKetThuc(true);
+    }
+
+    let luotMoi = soLuotConLai - 1;
+    setSoLuotConLai(luotMoi);
+
+    if (luotMoi === 0 && myGuess !== secretNumber) {
+      setThongBao("Bạn đã hết lượt! Số đúng là " + secretNumber);
+      setKetThuc(true);
     }
   }
 
-  function resetGame() {
-    let newRandom = Math.floor(Math.random() * 100) + 1;
-    setSecretNumber(newRandom);
-    setGuess(null);
-    setMessageText("");
-    setAttemptsLeft(10);
-    setGameOver(false);
+  function choiLai() {
+    let soMoi = taoSoNgauNhien();
+    setSecretNumber(soMoi);
+    setMyGuess(null);
+    setThongBao("");
+    setSoLuotConLai(10);
+    setKetThuc(false);
   }
 
   return (
@@ -49,25 +61,30 @@ const GuessGame = () => {
       <Typography.Title level={2}>
         Trò chơi đoán số
       </Typography.Title>
+
       <p>Nhập số từ 1 đến 100</p>
+
       <InputNumber
         min={1}
         max={100}
-        value={guess}
+        value={myGuess}
         onChange={(value) => {
-          setGuess(value);
+          setMyGuess(value);
         }}
       />
 
       <br /><br />
-      <Button type="primary" onClick={handleGuess} disabled={gameOver}>
+
+      <Button type="primary" onClick={handleGuess} disabled={ketThuc}>
         Đoán
       </Button>
 
-      <p>Số lượt còn lại: {attemptsLeft}</p>
-      <p>{messageText}</p>
-      {gameOver === true && (
-        <Button onClick={resetGame}>
+      <p>Số lượt còn lại: {soLuotConLai}</p>
+
+      <p>{thongBao}</p>
+
+      {ketThuc === true && (
+        <Button onClick={choiLai}>
           Chơi lại
         </Button>
       )}
