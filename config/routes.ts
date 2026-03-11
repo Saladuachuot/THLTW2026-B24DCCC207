@@ -44,14 +44,14 @@
 	},
 	
 	{
-  		path: '/th01/bt01',
+  		path: '/th02/bt01',
   		name: 'BT01',
-  		component: './TH01/BT01',
+  		component: './TH02/BT01',
 	},
 	{
-      	path: '/th01/bt02',
+      	path: '/th02/bt02',
       	name: 'BT02',
-      	component: './TH01/BT02',
+      	component: './TH02/BT02',
     },
 	// DANH MUC HE THONG
 	// {
