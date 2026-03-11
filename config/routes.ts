@@ -1,4 +1,7 @@
-﻿export default [
+﻿import component from "@/locales/en-US/component";
+import { compact } from "lodash";
+
+export default [
 	{
 		path: '/user',
 		layout: false,
@@ -43,6 +46,11 @@
 		component: './TodoList',
 	},
 
+	{
+		path: '/baitap2/baitap2',
+		name: 'BaiTap2',
+		component: './BaiTap2/BaiTap2',
+	},
 	// DANH MUC HE THONG
 	// {
 	// 	name: 'DanhMuc',
