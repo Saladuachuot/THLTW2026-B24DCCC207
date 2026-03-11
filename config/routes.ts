@@ -45,6 +45,12 @@ export default [
 		component: './TodoList',
 	},
 
+	{
+		path: '/baitap1/baitap1',
+		name: 'BaiTap1',
+		component: './BaiTap1/BaiTap1',
+	},
+
 	// DANH MUC HE THONG
 	// {
 	// 	name: 'DanhMuc',
