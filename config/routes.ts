@@ -46,14 +46,14 @@ export default [
 	},
 	
 	{
-  		path: '/th02/bt01',
-  		name: 'BT01',
-  		component: './TH02/BT01',
+  		path: '/th02/baitap01',
+  		name: 'BaiTap01',
+  		component: './TH02/BaiTap01',
 	},
 	{
       	path: '/th02/bt02',
       	name: 'BT02',
-      	component: './TH02/BT02',
+      	component: './TH02/BaiTap02/BaiTap02',
     },
 	
 	// DANH MUC HE THONG
