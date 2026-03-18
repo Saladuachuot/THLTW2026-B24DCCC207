@@ -44,17 +44,11 @@ export default [
 		icon: 'OrderedListOutlined',
 		component: './TodoList',
 	},
-	
 	{
-  		path: '/th02/baitap01',
-  		name: 'BaiTap01',
-  		component: './TH02/BaiTap01',
+		path: '/th03/index',
+		name: 'TH03',
+		component: './TH03/index',
 	},
-	{
-      	path: '/th02/bt02',
-      	name: 'BT02',
-      	component: './TH02/BaiTap02/BaiTap02',
-    },
 	
 	// DANH MUC HE THONG
 	// {
