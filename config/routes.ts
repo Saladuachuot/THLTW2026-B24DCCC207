@@ -1,4 +1,6 @@
-﻿export default [
+﻿import component from "@/locales/en-US/component";
+
+export default [
 	{
 		path: '/user',
 		layout: false,
@@ -43,6 +45,12 @@
 		component: './TodoList',
 	},
 
+	{
+		path: '/th04/index',
+		name: 'TH04',
+		component: './TH04/index',
+	},
+	
 	// DANH MUC HE THONG
 	// {
 	// 	name: 'DanhMuc',
