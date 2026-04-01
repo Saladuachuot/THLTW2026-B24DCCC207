@@ -18,7 +18,7 @@ export default function ApplicationForm({ visible, onClose, data, setData, clubs
       {
         id: Date.now(),
         ...values,
-        status: 'Pending', // 🔥 QUAN TRỌNG
+        status: 'Pending', 
       }
     ]);
     form.resetFields();
