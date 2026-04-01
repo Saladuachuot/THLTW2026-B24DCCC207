@@ -1,76 +1,142 @@
-import { Table, Button, Modal, Input } from 'antd';
+import { Table, Button, Modal, Input, Space } from 'antd';
 import { useState } from 'react';
 import { Application, Club, History } from './index';
 import HistoryModal from './HistoryModal';
+import ApplicationForm from './ApplicationForm';
 
 interface Props {
   data: Application[];
   setData: (data: Application[]) => void;
   clubs: Club[];
-  addHistory: any;
+  addHistory: (id: number, action: string, note: string) => void;
   history: History[];
 }
 
-export default ({ data, setData, clubs, addHistory, history }: Props) => {
+export default function ApplicationTable({
+  data,
+  setData,
+  clubs,
+  addHistory,
+  history,
+}: Props) {
   const [selected, setSelected] = useState<number[]>([]);
   const [rejectOpen, setRejectOpen] = useState(false);
   const [note, setNote] = useState('');
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
+
 
   const approve = () => {
-    setData(data.map(d =>
-      selected.includes(d.id) ? { ...d, status: 'Approved' } : d
-    ));
+    if (selected.length === 0) return;
 
-    selected.forEach(id => addHistory(id, 'Approved', ''));
+    setData(
+      data.map((d) =>
+        selected.includes(d.id) ? { ...d, status: 'Approved' } : d
+      )
+    );
+
+    selected.forEach((id) => addHistory(id, 'Approved', ''));
+
+    setSelected([]);
   };
 
+  
   const reject = () => {
-    if (!note) return alert('Nhập lý do');
+    if (!note) {
+      alert('Nhập lý do từ chối');
+      return;
+    }
 
-    setData(data.map(d =>
-      selected.includes(d.id)
-        ? { ...d, status: 'Rejected', note }
-        : d
-    ));
+    setData(
+      data.map((d) =>
+        selected.includes(d.id)
+          ? { ...d, status: 'Rejected', note }
+          : d
+      )
+    );
 
-    selected.forEach(id => addHistory(id, 'Rejected', note));
+    selected.forEach((id) => addHistory(id, 'Rejected', note));
 
     setRejectOpen(false);
+    setNote('');
+    setSelected([]);
   };
 
   return (
     <>
-      <h2>Đơn</h2>
+      <h2>Đơn đăng ký</h2>
 
-      <Button onClick={approve}>Duyệt {selected.length}</Button>
-      <Button danger onClick={() => setRejectOpen(true)}>Từ chối</Button>
-      <Button onClick={() => setHistoryOpen(true)}>Xem history</Button>
+      <Space style={{ marginBottom: 10 }}>
+        <Button type="primary" onClick={() => setCreateOpen(true)}>
+          Thêm đơn
+        </Button>
+
+        <Button onClick={approve}>
+          Duyệt {selected.length}
+        </Button>
+
+        <Button danger onClick={() => setRejectOpen(true)}>
+          Từ chối {selected.length}
+        </Button>
+
+        <Button onClick={() => setHistoryOpen(true)}>
+          Xem lịch sử
+        </Button>
+      </Space>
 
       <Table
         rowKey="id"
         rowSelection={{
-          onChange: keys => setSelected(keys as number[])
+          onChange: (keys) => setSelected(keys as number[]),
         }}
         dataSource={data}
         columns={[
-          { title: 'Tên', dataIndex: 'name' },
+          { title: 'Họ tên', dataIndex: 'name' },
           { title: 'Email', dataIndex: 'email' },
           { title: 'SĐT', dataIndex: 'phone' },
           { title: 'Giới tính', dataIndex: 'gender' },
+          { title: 'Địa chỉ', dataIndex: 'address' },
+          { title: 'Sở trường', dataIndex: 'skill' },
           {
             title: 'CLB',
-            render: r => clubs.find(c => c.id === r.clubId)?.name
+            render: (r: Application) =>
+              clubs.find((c) => c.id === r.clubId)?.name || '',
           },
-          { title: 'Trạng thái', dataIndex: 'status' }
+          { title: 'Lý do', dataIndex: 'reason' },
+          { title: 'Trạng thái', dataIndex: 'status' },
+          { title: 'Ghi chú', dataIndex: 'note' },
         ]}
       />
 
-      <Modal visible={rejectOpen} onOk={reject} onCancel={() => setRejectOpen(false)}>
-        <Input onChange={e => setNote(e.target.value)} placeholder="Lý do từ chối" />
+      
+      <Modal
+        visible={rejectOpen}
+        onOk={reject}
+        onCancel={() => setRejectOpen(false)}
+        title="Nhập lý do từ chối"
+      >
+        <Input
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="Nhập lý do..."
+        />
       </Modal>
 
-      <HistoryModal visible={historyOpen} history={history} onClose={() => setHistoryOpen(false)} />
+      
+      <ApplicationForm
+        visible={createOpen}
+        onClose={() => setCreateOpen(false)}
+        data={data}
+        setData={setData}
+        clubs={clubs}
+      />
+
+      
+      <HistoryModal
+        visible={historyOpen}
+        history={history}
+        onClose={() => setHistoryOpen(false)}
+      />
     </>
   );
-};
+}

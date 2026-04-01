@@ -1,29 +1,20 @@
-import { Card } from 'antd';
-import { Column } from '@ant-design/plots';
+import { Card, Row, Col } from 'antd';
 
 export default ({ clubs, applications }) => {
-  const data = [];
-
-  clubs.forEach(c => {
-    ['Pending', 'Approved', 'Rejected'].forEach(status => {
-      data.push({
-        club: c.name,
-        type: status,
-        value: applications.filter(a => a.clubId === c.id && a.status === status).length
-      });
-    });
-  });
+  const pending = applications.filter(a => a.status === 'Pending').length;
+  const approved = applications.filter(a => a.status === 'Approved').length;
+  const rejected = applications.filter(a => a.status === 'Rejected').length;
 
   return (
-    <Card>
-      <p>Số CLB: {clubs.length}</p>
-
-      <Column
-        data={data}
-        xField="club"
-        yField="value"
-        seriesField="type"
-      />
-    </Card>
+    <div style={{ marginBottom: 16 }}>
+      <Card size="small">
+        <Row gutter={16}>
+          <Col span={6}>CLB: {clubs.length}</Col>
+          <Col span={6}>Pending: {pending}</Col>
+          <Col span={6}>Approved: {approved}</Col>
+          <Col span={6}>Rejected: {rejected}</Col>
+        </Row>
+      </Card>
+    </div>
   );
 };
